@@ -12,6 +12,7 @@ public class Game {
 
     private String gameName = "Flappy Bird Clone";
     private Canvas game = new Canvas();
+    private Input input;
     private ArrayList<Updatable> updatables = new ArrayList<>();
     private ArrayList<Renderable> renderables = new ArrayList<>();
 
@@ -25,10 +26,14 @@ public class Game {
         gameWindow.add(gameWindow);
         gameWindow.setLocationRelativeTo(null);
 
-
+        input = new Input();
     }
 
-
+    private void update() {
+        for (Updatable u : updatables) {
+            u.update(input);
+        }
+    }
 
     public  void render(float interpolation) {
         BufferStrategy b = game.getBufferStrategy();
