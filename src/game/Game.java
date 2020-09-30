@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -10,6 +12,8 @@ public class Game {
 
     private String gameName = "Flappy Bird Clone";
     private Canvas game = new Canvas();
+    private ArrayList<Updatable> updatables = new ArrayList<>();
+    private ArrayList<Renderable> renderables = new ArrayList<>();
 
     public void start() {
         Dimension gameSize = new Dimension(Game.WIDTH, Game.HEIGHT);
@@ -21,6 +25,24 @@ public class Game {
         gameWindow.add(gameWindow);
         gameWindow.setLocationRelativeTo(null);
 
+
+    }
+
+
+
+    public  void render(float interpolation) {
+        BufferStrategy b = game.getBufferStrategy();
+        if(b==null) {
+            game.createBufferStrategy(2);
+            return;
+        }
+        Graphics2D g = (Graphics2D) b.getDrawGraphics();
+        g.clearRect(0,0, game.getWidth(), game.getHeight());
+        for (Renderable r :renderables) {
+            r.render(null, interpolation);
+        }
+        g.dispose();
+        b.show();
     }
 }
 
