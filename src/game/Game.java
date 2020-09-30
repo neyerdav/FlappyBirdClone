@@ -39,7 +39,7 @@ public class Game {
         gameWindow.setSize(gameSize);
         gameWindow.setVisible(true);
         gameWindow.setResizable(false);
-        gameWindow.add(gameWindow);
+        gameWindow.add(game);
         gameWindow.setLocationRelativeTo(null);
 
         input = new Input();
