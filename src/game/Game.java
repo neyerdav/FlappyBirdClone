@@ -17,7 +17,7 @@ public class Game {
     private ArrayList<Renderable> renderables = new ArrayList<>();
 
     public void addUpdatable(Updatable u) {
-       updatables.add(u);
+        updatables.add(u);
     }
 
     public void removeUpdatable(Updatable u) {
@@ -50,12 +50,15 @@ public class Game {
 
         long nextGameTick = System.currentTimeMillis();
         int loops;
+        float interpolation;
+
+        long timeAtLastFPSCheck = 0;
         int ticks = 0;
 
         boolean running = true;
-        while(running) {
+        while (running) {
             loops = 0;
-            while(System.currentTimeMillis() > nextGameTick && loops < MAX_FRAMESKIPS) {
+            while (System.currentTimeMillis() > nextGameTick && loops < MAX_FRAMESKIPS) {
                 update();
                 ticks++;
 
@@ -63,6 +66,14 @@ public class Game {
                 loops++;
             }
 
+            interpolation = (float) (System.currentTimeMillis() + TIME_PER_TICK - nextGameTick)
+                    / (float) TIME_PER_TICK;
+            render(interpolation);
+            if (System.currentTimeMillis() - timeAtLastFPSCheck >= 1000) {
+                gameWindow.setTitle(gameName + " - FPS: " + ticks);
+                ticks = 0;
+                timeAtLastFPSCheck = System.currentTimeMillis();
+            }
         }
     }
 
@@ -72,15 +83,15 @@ public class Game {
         }
     }
 
-    public  void render(float interpolation) {
+    public void render(float interpolation) {
         BufferStrategy b = game.getBufferStrategy();
-        if(b==null) {
+        if (b == null) {
             game.createBufferStrategy(2);
             return;
         }
         Graphics2D g = (Graphics2D) b.getDrawGraphics();
-        g.clearRect(0,0, game.getWidth(), game.getHeight());
-        for (Renderable r :renderables) {
+        g.clearRect(0, 0, game.getWidth(), game.getHeight());
+        for (Renderable r : renderables) {
             r.render(null, interpolation);
         }
         g.dispose();
