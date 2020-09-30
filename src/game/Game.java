@@ -16,6 +16,22 @@ public class Game {
     private ArrayList<Updatable> updatables = new ArrayList<>();
     private ArrayList<Renderable> renderables = new ArrayList<>();
 
+    public void addUpdatable(Updatable u) {
+       updatables.add(u);
+    }
+
+    public void removeUpdatable(Updatable u) {
+        updatables.remove(u);
+    }
+
+    public void addRenderable(Renderable r) {
+        renderables.add(r);
+    }
+
+    public void removeRenderable(Renderable r) {
+        renderables.remove(r);
+    }
+
     public void start() {
         Dimension gameSize = new Dimension(Game.WIDTH, Game.HEIGHT);
         JFrame gameWindow = new JFrame(gameName);
@@ -27,6 +43,27 @@ public class Game {
         gameWindow.setLocationRelativeTo(null);
 
         input = new Input();
+
+        final int TICKS_PER_SECOND = 60;
+        final int TIME_PER_TICK = 1000 / TICKS_PER_SECOND;
+        final int MAX_FRAMESKIPS = 5;
+
+        long nextGameTick = System.currentTimeMillis();
+        int loops;
+        int ticks = 0;
+
+        boolean running = true;
+        while(running) {
+            loops = 0;
+            while(System.currentTimeMillis() > nextGameTick && loops < MAX_FRAMESKIPS) {
+                update();
+                ticks++;
+
+                nextGameTick += TIME_PER_TICK;
+                loops++;
+            }
+
+        }
     }
 
     private void update() {
