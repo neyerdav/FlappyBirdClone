@@ -92,7 +92,7 @@ public class Game {
         Graphics2D g = (Graphics2D) b.getDrawGraphics();
         g.clearRect(0, 0, game.getWidth(), game.getHeight());
         for (Renderable r : renderables) {
-            r.render(null, interpolation);
+            r.render(g, interpolation);
         }
         g.dispose();
         b.show();
