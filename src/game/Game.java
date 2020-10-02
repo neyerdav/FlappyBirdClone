@@ -43,7 +43,7 @@ public class Game {
         gameWindow.setLocationRelativeTo(null);
 
         input = new Input();
-
+        game.addKeyListener(input);
         final int TICKS_PER_SECOND = 60;
         final int TIME_PER_TICK = 1000 / TICKS_PER_SECOND;
         final int MAX_FRAMESKIPS = 5;
